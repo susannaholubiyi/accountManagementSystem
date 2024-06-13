@@ -1,0 +1,18 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="Maximum.number2" />
+          <option value="Maximum.maximum" />
+          <option value="Append.l1" />
+          <option value="Male_Female.*" />
+          <option value="Segun_Seyi.names_list" />
+          <option value="Segun_Seyi.names" />
+          <option value="Ibrahim.Class_Work.zeroDivisionError" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
