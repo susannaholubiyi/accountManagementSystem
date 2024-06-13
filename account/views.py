@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Account
 from .serializers import AccountSerializer
+from rest_framework import status
 
 from django.shortcuts import render
 
@@ -12,8 +13,11 @@ from django.shortcuts import render
 def list_account(request):
     accounts = Account.objects.all()
     serializer = AccountSerializer(accounts, many=True)
-    return Response("hi")
+    return Response(serializer.data, status.HTTP_200_OK)
 
 
+@api_view()
 def account_detail(request, pk):
-    return HttpResponse(pk)
+    account = Account.objects.get(pk=pk)
+    serializer = AccountSerializer(account)
+    return Response(serializer.data, status=status.HTTP_200_OK)
