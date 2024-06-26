@@ -13,7 +13,7 @@ class Account(models.Model):
     first_name = models.CharField(max_length=255, null=True, blank=True)
     last_name = models.CharField(max_length=255)
     pin = models.CharField(max_length=4, validators=[validate_pin])
-    balance = models.DecimalField(max_digits=6,
+    balance = models.DecimalField(max_digits=15,
                                   decimal_places=2,
                                   default=0.00)
     ACCOUNT_TYPE = [
@@ -39,14 +39,18 @@ class Transaction(models.Model):
         ('F', 'FAIL'),
         ('P', 'PENDING'),
     ]
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE,
+                                related_name='transactions')
     transaction_type = models.CharField(max_length=3,
                                         choices=TRANSACTION_TYPE,
                                         default='CRE')
     transaction_time = models.DateTimeField(auto_now_add=True)
-    amount = models.DecimalField(max_digits=6,
+    amount = models.DecimalField(max_digits=15,
                                  decimal_places=2)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     transaction_status = models.CharField(max_length=1,
                                           choices=TRANSACTION_STATUS,
                                           default='S')
+
+    def __str__(self):
+        return f"{self.account}, {self.amount}, {self.transaction_status}"
