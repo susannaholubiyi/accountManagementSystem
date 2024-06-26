@@ -19,11 +19,17 @@ def list_account(request):
         serializer = CreateAccountSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status= status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view()
+@api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
 def account_detail(request, pk):
     account = get_object_or_404(Account, pk=pk)
-    serializer = AccountSerializer(account)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == 'GET':
+        serializer = AccountSerializer(account)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'PUT':
+        serializer = CreateAccountSerializer(account, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
