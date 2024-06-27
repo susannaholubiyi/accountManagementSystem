@@ -1,12 +1,15 @@
+from django.contrib.auth.models import User
 from django.db import models
 from .utility import generate_account_number
 from .validator import validate_pin
+from django.conf import settings
 
 
 # Create your models here.
 # One account can perform many transactions so it joined together from the many side
 
 class Account(models.Model):
+    user= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     account_number = models.CharField(max_length=10,
                                       default=generate_account_number,
                                       unique=True, primary_key=True)
@@ -16,7 +19,8 @@ class Account(models.Model):
     balance = models.DecimalField(max_digits=15,
                                   decimal_places=2,
                                   default=0.00)
-    ACCOUNT_TYPE = [
+    ACCOUNT_TYPE \
+        = [
         ('S', 'SAVINGS'),
         ('C', 'CURRENT'),
         ('D', 'DOMICILIARY'),
