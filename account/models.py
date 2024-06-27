@@ -22,6 +22,7 @@ class Account(models.Model):
         ('D', 'DOMICILIARY'),
     ]
     account_type = models.CharField(max_length=1, choices=ACCOUNT_TYPE, default='S')
+    transactions = models.ManyToOneRel
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} {self.account_type} {self.balance}"
