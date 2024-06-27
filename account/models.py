@@ -9,7 +9,7 @@ from django.conf import settings
 # One account can perform many transactions so it joined together from the many side
 
 class Account(models.Model):
-    user= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    user= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, default=1)
     account_number = models.CharField(max_length=10,
                                       default=generate_account_number,
                                       unique=True, primary_key=True)
