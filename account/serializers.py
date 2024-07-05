@@ -1,11 +1,14 @@
+
 from rest_framework import serializers
-from .models import Account, Transaction
+
+from account.models import Account, Transaction
 
 
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ['id', 'amount', 'transaction_type', 'transaction_status', 'transaction_time', 'description']
+        fields = ['id', 'account', 'amount', 'transaction_type', 'transaction_time',
+                  'transaction_status', 'description']
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -13,10 +16,29 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ['account_number', 'first_name', 'last_name', 'balance', 'account_type', 'transactions']
+        fields = ['user', 'account_number', 'account_type', 'balance', 'transactions']
+        # transactions = serializers.StringRelatedField
 
 
-class CreateAccountSerializer(serializers.ModelSerializer):
+class AccountCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'pin', 'account_type']
+        fields = ['user', 'account_number', 'account_type']
+
+
+class DepositSerializer(serializers.Serializer):
+    account_number = serializers.CharField(max_length=10)
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+
+class WithdrawSerializer(serializers.Serializer):
+    account_number = serializers.CharField(max_length=10)
+    pin = serializers.CharField(max_length=4)
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+
+class TransferSerializer(serializers.Serializer):
+    sender_account_number = serializers.CharField(max_length=10)
+    recipient_account_number = serializers.CharField(max_length=10)
+    pin = serializers.CharField(max_length=4)
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2)
